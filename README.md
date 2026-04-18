@@ -1,16 +1,100 @@
-# React + Vite
+# 📰 News Alert System - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React frontend for the **Real-Time News Alert System** built using **React + Tailwind CSS**.
 
-Currently, two official plugins are available:
+This application allows users to receive live news notifications, manage alert preferences, view alerts history, and interact with a responsive dashboard.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+#  Features
 
-## Expanding the ESLint configuration
+##  Authentication
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- User Registration
+- User Login
+- JWT Token Based Authentication
+- Protected Routes
+
+---
+
+##  News Feed
+
+- View latest news articles
+- Category-based news filtering
+- Responsive news cards
+- Real-time updates
+
+---
+
+##  Notifications
+
+- Live notification bell badge
+- Real-time breaking news alerts
+- Latest 5 notifications in dropdown
+- Clear all notifications
+- Unread badge count
+
+---
+
+##  Preferences Page
+
+Users can customize:
+
+### Categories
+
+- Technology
+- Sports
+- Business
+- Health
+- Science
+- Entertainment
+- Politics
+- World
+
+### Alert Frequency
+
+- Immediate
+- Hourly
+- Daily
+
+### Options like Subscribe and unSubscribe 
+
+- Save Preferences
+- Update Preferences
+- Delete Category
+- Delete All Preferences
+
+---
+
+##  Alerts Page
+
+- Full notification history
+- Mark as read
+- Delete alerts
+- Clear all alerts
+
+---
+
+##  Admin Dashboard
+
+Admin users can:
+
+- Publish news
+- Manage users
+- View analytics
+- Trigger alerts
+
+---
+
+#  Tech Stack
+
+- React.js
+- Tailwind CSS
+- Axios
+- React Router DOM
+- React Toastify
+- Heroicons
+- Socket.IO Client
+
+---
