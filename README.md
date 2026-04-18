@@ -98,3 +98,8 @@ Admin users can:
 - Socket.IO Client
 
 ---
+
+## Demo Admin Access
+
+Email: abc@gmail.com  
+Password: 123456
