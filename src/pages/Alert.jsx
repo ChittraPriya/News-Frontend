@@ -12,13 +12,14 @@ const AlertsPage = () => {
   }, []);
 
   const fetchAlerts = async () => {
-    try {
-      const res = await instance.get("/alerts");
-      setAlerts(res.data.alerts);
-    } catch (error) {
-      toast.error("Failed to load alerts");
-    }
-  };
+  try {
+    const res = await instance.get("/api/v1/alerts");
+
+    setAlerts(res.data.alerts);
+  } catch (error) {
+    toast.error("Failed to load alerts");
+  }
+};
 
   // MARK AS READ
   const markAsRead = async (id) => {
