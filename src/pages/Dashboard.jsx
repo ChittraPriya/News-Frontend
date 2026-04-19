@@ -22,12 +22,12 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
- fetchAllNews();
+    fetchAllNews();
 
- const interval = setInterval(fetchAllNews, 30000);
+    const interval = setInterval(fetchAllNews, 30000);
 
- return () => clearInterval(interval);
-}, []);
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchAllNews = async () => {
     try {
@@ -161,7 +161,13 @@ const Dashboard = () => {
 
                   <div className="p-4">
                     {/* Source Badge */}
-                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full ${
+                        item.source === "admin"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-blue-100 text-blue-700"
+                      }`}
+                    >
                       {item.source || "News"}
                     </span>
 

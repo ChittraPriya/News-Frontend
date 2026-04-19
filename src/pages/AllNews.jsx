@@ -23,24 +23,17 @@ const AllNews = () => {
       <Navbar />
 
       <div className="max-w-6xl mx-auto p-6">
-
-        <h1 className="text-3xl font-bold mb-6">
-          All News
-        </h1>
+        <h1 className="text-3xl font-bold mb-6">All News</h1>
 
         {/* GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
           {news.map((item, index) => (
             <div
               key={index}
               className="bg-white rounded-2xl shadow hover:shadow-lg overflow-hidden"
             >
-              {item.image_url && (
-                <img
-                  src={item.image_url}
-                  className="h-40 w-full object-cover"
-                />
+              {item.image && (
+                <img src={item.image} className="h-40 w-full object-cover" />
               )}
 
               <div className="p-4">
@@ -54,17 +47,15 @@ const AllNews = () => {
 
                 <a
                   href={item.link}
-                  target="_blank"
+                  target="_blank"           
                   className="text-blue-600 text-sm mt-3 inline-block"
                 >
-                  Read More 
+                  Read More
                 </a>
               </div>
             </div>
           ))}
-
         </div>
-
       </div>
     </div>
   );

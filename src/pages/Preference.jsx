@@ -63,16 +63,20 @@ const Preferences = () => {
       };
 
       if (hasPreference) {
-        await instance.put("/preferences", data);
+        const res = await instance.put("/preferences", data);
+        setHasPreference(true); // 🔥 IMPORTANT
         toast.success("Preferences Updated");
       } else {
-        await instance.post("/preferences/add", data);
+        const res = await instance.post("/preferences/add", data);
+        setHasPreference(true); // 🔥 IMPORTANT
         toast.success("Preferences Saved");
       }
 
       navigate("/dashboard");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to Save Preferences");
+      toast.error(
+        error.response?.data?.message || "Failed to Save Preferences",
+      );
     }
   };
 
@@ -150,9 +154,7 @@ const Preferences = () => {
         {/* Selected Categories Display */}
         {selected.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-lg font-semibold mb-3">
-              Selected Categories
-            </h2>
+            <h2 className="text-lg font-semibold mb-3">Selected Categories</h2>
 
             <div className="flex flex-wrap gap-3">
               {selected.map((item, index) => (
@@ -187,9 +189,7 @@ const Preferences = () => {
         {/* Time */}
         {frequency === "daily" && (
           <div className="mb-8">
-            <label className="block font-semibold mb-2">
-              Preferred Time
-            </label>
+            <label className="block font-semibold mb-2">Preferred Time</label>
 
             <input
               type="time"
