@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import instance from "../instances/instances";
 
 import {
@@ -17,6 +17,7 @@ const Navbar = () => {
   const [showPanel, setShowPanel] = useState(false);
   const [open, setOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const isAuthenticated = !!token;
@@ -145,7 +146,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   return (
