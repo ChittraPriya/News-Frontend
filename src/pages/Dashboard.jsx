@@ -1,7 +1,16 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
-import { Bars3Icon, BellAlertIcon, Cog6ToothIcon, EnvelopeIcon, HomeIcon, NewspaperIcon, TagIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  BellAlertIcon,
+  Cog6ToothIcon,
+  EnvelopeIcon,
+  HomeIcon,
+  NewspaperIcon,
+  TagIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import instance from "../instances/instances";
 import { useNavigate } from "react-router-dom";
 
@@ -13,13 +22,16 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAllNews();
-  }, []);
+ fetchAllNews();
+
+ const interval = setInterval(fetchAllNews, 30000);
+
+ return () => clearInterval(interval);
+}, []);
 
   const fetchAllNews = async () => {
     try {
-      const response = await instance.get("/news");
-      console.log(response.data);
+      const response = await instance.get("/dashboard");
       setNews(response.data.news);
     } catch (error) {
       console.log(error);
@@ -49,9 +61,9 @@ const Dashboard = () => {
           ></div>
         )}
 
-        {/* Sidebar */}
         <div
-          className={`fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}md:translate-x-0`}>
+          className={`fixed md:static top-0 left-0 h-full w-64 bg-white shadow-md z-50 transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+        >
           {/* Close Button Mobile */}
           <div className="flex justify-end p-4 md:hidden">
             <XMarkIcon
@@ -59,37 +71,62 @@ const Dashboard = () => {
               onClick={() => setSidebarOpen(false)}
             />
           </div>
-           <div className="space-y-3">
-
-            <button onClick={() => { setActive("dashboard"); setSidebarOpen(false); }} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50">
+          <div className="space-y-3">
+            <button
+              onClick={() => {
+                setActive("dashboard");
+                setSidebarOpen(false);
+              }}
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50"
+            >
               <HomeIcon className="w-5 h-5" />
               Home
             </button>
-            <button onClick={() => { setActive("dashboard"); setSidebarOpen(false); navigate("/all-news");}} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50">
+            <button
+              onClick={() => {
+                setActive("dashboard");
+                setSidebarOpen(false);
+                navigate("/all-news");
+              }}
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50"
+            >
               <NewspaperIcon className="w-5 h-5" />
               All News
             </button>
-            <button onClick={() => { setActive("dashboard"); setSidebarOpen(false);navigate("/alerts") }} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50">
+            <button
+              onClick={() => {
+                setActive("dashboard");
+                setSidebarOpen(false);
+                navigate("/alerts");
+              }}
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50"
+            >
               <BellAlertIcon className="w-5 h-5" />
               Alerts
             </button>
-            <button onClick={() => { setActive("dashboard"); setSidebarOpen(false);navigate("/preferences") }} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50">
+            <button
+              onClick={() => {
+                setActive("dashboard");
+                setSidebarOpen(false);
+                navigate("/preferences");
+              }}
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50"
+            >
               <TagIcon className="w-5 h-5" />
               Preferences
             </button>
-            <button onClick={() => { setActive("dashboard"); setSidebarOpen(false);navigate("/settings") }} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50">
+            <button
+              onClick={() => {
+                setActive("dashboard");
+                setSidebarOpen(false);
+                navigate("/settings");
+              }}
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50"
+            >
               <Cog6ToothIcon className="w-5 h-5" />
               Settings
             </button>
-            </div>
-
-          {/* <nav className="flex flex-col gap-4 p-5">
-            <Link to="/dashboard">Home</Link>
-            <Link to="/all-news">All News</Link>
-            <Link to="/alerts">Alerts</Link>
-            <Link to="/preferences">Preferences</Link>
-            <Link to="/email">Email Settings</Link>
-          </nav> */}
+          </div>
         </div>
 
         {/* MAIN CONTENT */}
@@ -114,21 +151,26 @@ const Dashboard = () => {
                   key={index}
                   className="bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden"
                 >
-                  {item.image_url && (
+                  {(item.image_url || item.urlToImage || item.image) && (
                     <img
-                      src={item.image_url}
+                      src={item.image_url || item.urlToImage || item.image}
                       alt="news"
                       className="h-40 w-full object-cover"
                     />
                   )}
 
                   <div className="p-4">
-                    <h3 className="font-semibold text-lg mb-2">
+                    {/* Source Badge */}
+                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                      {item.source || "News"}
+                    </span>
+
+                    <h3 className="font-semibold text-lg mt-3 mb-2">
                       {item.title?.slice(0, 55)}
                     </h3>
 
                     <p className="text-sm text-gray-500 mb-4">
-                      {item.description?.slice(0, 90)}
+                      {(item.description || item.content)?.slice(0, 90)}
                     </p>
 
                     <a
