@@ -37,20 +37,19 @@ const AlertsPage = () => {
 
   // DELETE ALERT
   const deleteAlert = async (id) => {
-    try {
-      await instance.delete(`/alerts/${id}`);
+  try {
+    await instance.delete(`/alerts/${id}`);
 
-      setAlerts((prev) =>
-        prev.map((alert) =>
-          alert._id === id ? { ...alert, hidden: true } : alert,
-        ),
-      );
+    setAlerts((prev) =>
+      prev.filter((item) => item._id !== id)
+    );
 
-      toast.success("Alert deleted");
-    } catch (error) {
-      toast.error("Delete failed");
-    }
-  };
+    toast.success("Alert deleted");
+
+  } catch (error) {
+    toast.error("Delete failed");
+  }
+};
   return (
     <div className="min-h-screen bg-gray-100">
       {/* NAVBAR */}
