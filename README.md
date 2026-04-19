@@ -1,4 +1,4 @@
-# 📰 News Alert System - Frontend
+# Real Time News Application - Frontend
 
 A modern React frontend for the **Real-Time News Alert System** built using **React + Tailwind CSS**.
 
