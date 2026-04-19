@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
-  frequency: "daily",
+  frequency: "instant",
   notifications: {
-    email: false,
-    push: false
+    email: true,
+    push: true
   }
 });
 const navigate = useNavigate();
