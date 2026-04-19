@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
 import instance from "../../instances/instances";
-
 import {
   ResponsiveContainer,
   BarChart,
@@ -16,23 +14,9 @@ import {
 } from "recharts";
 
 const Analytics = () => {
-  const token = localStorage.getItem("token");
-
   const [categoryStats, setCategoryStats] = useState([]);
-
   const [newsList, setNewsList] = useState([]);
-
-  useEffect(() => {
-  fetchAnalytics();
-  fetchNews();
-
-  const interval = setInterval(() => {
-    fetchAnalytics();
-    fetchNews();
-  }, 3000); // every 3 sec
-
-  return () => clearInterval(interval);
-}, []);
+  const [loading, setLoading] = useState(false);
 
   const categories = [
     "technology",
@@ -45,46 +29,60 @@ const Analytics = () => {
     "world",
   ];
 
-  const fetchAnalytics = async () => {
+  const fetchAllData = async () => {
     try {
-      const res = await instance.get("/admin/analytics", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      setLoading(true);
 
-      if (Array.isArray(res.data)) {
-        setCategoryStats(res.data);
-      } else {
-        setCategoryStats([]);
-      }
+      const token = localStorage.getItem("token");
+
+      const [analyticsRes, newsRes] = await Promise.all([
+        instance.get("/admin/analytics", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+
+        instance.get("/admin/news", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      ]);
+
+      setCategoryStats(
+        Array.isArray(analyticsRes.data)
+          ? analyticsRes.data
+          : []
+      );
+
+      setNewsList(
+        Array.isArray(newsRes.data)
+          ? newsRes.data
+          : []
+      );
+
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const fetchNews = async () => {
-    try {
-      const res = await instance.get("/admin/news", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  // realtime auto refresh
+  useEffect(() => {
+    fetchAllData();
 
-      if (Array.isArray(res.data)) {
-        setNewsList(res.data);
-      } else {
-        setNewsList([]);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const interval = setInterval(() => {
+      fetchAllData();
+    }, 5000); // every 5 sec
 
-  // show all categories
+    return () => clearInterval(interval);
+  }, []);
+
   const chartData = categories.map((cat) => {
     const found = categoryStats.find(
-      (item) => item.category?.toLowerCase() === cat,
+      (item) =>
+        item.category?.toLowerCase() === cat
     );
 
     return {
@@ -98,50 +96,90 @@ const Analytics = () => {
   const pieData = [
     {
       name: "API News",
-      value: newsList.filter((n) => n.source?.toLowerCase() === "api").length,
+      value: newsList.filter(
+        (n) =>
+          n.source?.toLowerCase() === "api"
+      ).length,
     },
     {
       name: "Admin News",
-      value: newsList.filter((n) => n.source?.toLowerCase() !== "api").length,
+      value: newsList.filter(
+        (n) =>
+          n.source?.toLowerCase() !== "api"
+      ).length,
     },
   ];
 
   return (
     <div className="space-y-8">
-      <div className="bg-white p-6 rounded-xl shadow">
-        <h2 className="text-2xl font-bold">Analytics Dashboard</h2>
+      {/* Header */}
+      <div className="bg-white p-6 rounded-xl shadow flex justify-between items-center">
+        <h2 className="text-2xl font-bold">
+          Analytics Dashboard
+        </h2>
+
+        <button
+          onClick={fetchAllData}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+        >
+          {loading ? "Loading..." : "Refresh"}
+        </button>
       </div>
 
-      {/* BAR CHART */}
+      {/* Bar Chart */}
       <div className="bg-white p-6 rounded-xl shadow">
-        <h3 className="font-bold mb-4">Category News Stats</h3>
+        <h3 className="font-bold mb-4">
+          Category News Stats
+        </h3>
 
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer
+          width="100%"
+          height={400}
+        >
           <BarChart data={chartData}>
             <XAxis dataKey="category" />
-
             <YAxis />
-
             <Tooltip />
-
             <Legend />
 
-            <Bar dataKey="total" fill="#3b82f6" name="Total" />
+            <Bar
+              dataKey="total"
+              fill="#3b82f6"
+              name="Total"
+            />
 
-            <Bar dataKey="api" fill="#10b981" name="API" />
+            <Bar
+              dataKey="api"
+              fill="#10b981"
+              name="API"
+            />
 
-            <Bar dataKey="admin" fill="#f59e0b" name="Admin" />
+            <Bar
+              dataKey="admin"
+              fill="#f59e0b"
+              name="Admin"
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      {/* PieChart */}
+      {/* Pie Chart */}
       <div className="bg-white p-6 rounded-xl shadow flex justify-center">
         <div>
-          <h3 className="font-bold mb-4 text-center">Source Distribution</h3>
+          <h3 className="font-bold mb-4 text-center">
+            Source Distribution
+          </h3>
 
-          <PieChart width={350} height={300}>
-            <Pie data={pieData} dataKey="value" outerRadius={100} label>
+          <PieChart
+            width={350}
+            height={300}
+          >
+            <Pie
+              data={pieData}
+              dataKey="value"
+              outerRadius={100}
+              label
+            >
               <Cell fill="#3b82f6" />
               <Cell fill="#10b981" />
             </Pie>
