@@ -38,16 +38,26 @@ const AlertsPage = () => {
   // DELETE ALERT
   const deleteAlert = async (id) => {
   try {
-    await instance.delete(`/alerts/${id}`);
+    await instance.delete(`/alerts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    });
 
     setAlerts((prev) =>
       prev.filter((item) => item._id !== id)
     );
 
+    window.dispatchEvent(new Event("alerts-updated"));
+
     toast.success("Alert deleted");
 
   } catch (error) {
-    toast.error("Delete failed");
+    console.log("DELETE ERROR:", error.response?.data || error.message);
+
+    toast.error(
+      error.response?.data?.message || "Delete failed"
+    );
   }
 };
   return (
