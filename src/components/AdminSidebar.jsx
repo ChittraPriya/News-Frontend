@@ -8,7 +8,8 @@ import {
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 
 const AdminSidebar = () => {
   const menu = [
@@ -19,9 +20,11 @@ const AdminSidebar = () => {
     { name: "Analytics", icon: ChartBarIcon, path: "/admin/analytics" },
   ];
 
+  const navigate = useNavigate();
+
   const logout = () => {
     localStorage.clear();
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   return (

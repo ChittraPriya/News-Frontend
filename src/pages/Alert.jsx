@@ -13,9 +13,10 @@ const AlertsPage = () => {
 
   const fetchAlerts = async () => {
   try {
-    const res = await instance.get("/api/v1/alerts");
-
-    setAlerts(res.data.alerts);
+   const res = await instance.get("/api/v1/alerts");
+  console.log("ALERT RESPONSE:", res.data);
+  console.log("USER:", res.data?.alerts?.[0]?.userId);
+  setAlerts(res.data.alerts || res.data || []);
   } catch (error) {
     toast.error("Failed to load alerts");
   }
