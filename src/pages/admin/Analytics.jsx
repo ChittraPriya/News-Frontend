@@ -23,9 +23,16 @@ const Analytics = () => {
   const [newsList, setNewsList] = useState([]);
 
   useEffect(() => {
+  fetchAnalytics();
+  fetchNews();
+
+  const interval = setInterval(() => {
     fetchAnalytics();
     fetchNews();
-  }, []);
+  }, 3000); // every 3 sec
+
+  return () => clearInterval(interval);
+}, []);
 
   const categories = [
     "technology",
