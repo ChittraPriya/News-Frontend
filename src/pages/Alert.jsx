@@ -12,15 +12,13 @@ const AlertsPage = () => {
   }, []);
 
   const fetchAlerts = async () => {
-  try {
-   const res = await instance.get("/alerts");
-  console.log("ALERT RESPONSE:", res.data);
-  console.log("USER:", res.data?.alerts?.[0]?.userId);
-  setAlerts(res.data.alerts || res.data || []);
-  } catch (error) {
-    toast.error("Failed to load alerts");
-  }
-};
+    try {
+      const res = await instance.get("/alerts");
+      setAlerts(res.data.alerts || res.data || []);
+    } catch (error) {
+      toast.error("Failed to load alerts");
+    }
+  };
 
   // MARK AS READ
   const markAsRead = async (id) => {
@@ -39,20 +37,20 @@ const AlertsPage = () => {
 
   // DELETE ALERT
   const deleteAlert = async (id) => {
-  try {
-    await instance.delete(`/alerts/${id}`);
+    try {
+      await instance.delete(`/alerts/${id}`);
 
-    setAlerts(prev =>
-      prev.map(alert =>
-        alert._id === id ? { ...alert, hidden: true } : alert
-      )
-    );
+      setAlerts((prev) =>
+        prev.map((alert) =>
+          alert._id === id ? { ...alert, hidden: true } : alert,
+        ),
+      );
 
-    toast.success("Alert deleted");
-  } catch (error) {
-    toast.error("Delete failed");
-  }
-};
+      toast.success("Alert deleted");
+    } catch (error) {
+      toast.error("Delete failed");
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-100">
       {/* NAVBAR */}
@@ -104,7 +102,7 @@ const AlertsPage = () => {
 
                   <button
                     onClick={() => deleteAlert(alert._id)}
-                    className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                    className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
                   >
                     <TrashIcon className="w-5 h-5 text-white" />
                   </button>

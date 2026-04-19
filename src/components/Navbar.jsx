@@ -59,38 +59,39 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchNotifications();
-      fetchUnreadCount();
-    }
+  if (isAuthenticated) {
+    fetchNotifications();
+    fetchUnreadCount();
+  }
 
-    socket.on("new-news", (data) => {
-      setNotifications((prev) => {
-        const exists = prev.some(
-          (item) =>
-            item.title === data.alert.title || item.link === data.alert.link,
-        );
+  socket.on("new-news", (data) => {
+    setNotifications((prev) => {
+      const exists = prev.some(
+        (item) =>
+          item.title === data.alert.title ||
+          item.link === data.alert.link
+      );
 
-        if (exists) return prev;
+      if (exists) return prev;
 
-        return [data.alert, ...prev];
-      });
-
-      setUnreadCount((prev) => prev + 1);
+      return [data.alert, ...prev];
     });
 
-    const refreshAlerts = () => {
-      fetchNotifications();
-      fetchUnreadCount();
-    };
+    fetchUnreadCount();
+  });
 
-    window.addEventListener("alerts-updated", refreshAlerts);
+  const refreshAlerts = () => {
+    fetchNotifications();
+    fetchUnreadCount();
+  };
 
-    return () => {
-      socket.off("new-news");
-      window.removeEventListener("alerts-updated", refreshAlerts);
-    };
-  }, [fetchNotifications, isAuthenticated]);
+  window.addEventListener("alerts-updated", refreshAlerts);
+
+  return () => {
+    socket.off("new-news");
+    window.removeEventListener("alerts-updated", refreshAlerts);
+  };
+}, [isAuthenticated, fetchNotifications]);
 
   /* MARK ALL READ */
   const handleBellClick = async () => {
