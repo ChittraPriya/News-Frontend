@@ -2,13 +2,9 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL + "/api/v1",
-  timeout: 10000,
-  headers: {
-    "Content-Type": "application/json"
-  },
-  withCredentials: true
+  timeout: 60000,
+  withCredentials: true,
 });
-
 
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -19,6 +15,5 @@ instance.interceptors.request.use((config) => {
 
   return config;
 });
-
 
 export default instance;

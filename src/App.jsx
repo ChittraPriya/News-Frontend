@@ -3,7 +3,6 @@ import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Preferences from "./pages/Preference";
-import AllNews from "./pages/AllNews";
 import AlertsPage from "./pages/Alert";
 import AdminLayout from "./components/AdminLayout";
 import Dashboard2 from "./pages/admin/Dashboard";
@@ -16,70 +15,41 @@ import UserDashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import { useEffect } from "react";
 import socket from "./socket/socket";
+import MyFeed from "./pages/MyFeed";
+import NewsDetails from "./pages/NewsDetails";
+import MainLayout from "./components/MainLayout";
 
 
 
 const router = createBrowserRouter([
   {
-    path:'/',
-    element: <Home/>
-  },
-  {
-  path: '/login',
-  element:<Login />
-  },
-  {
-    path: '/dashboard',
-    element: <UserDashboard />
-  },
-  {
-    path: '/all-news',
-    element: <AllNews />
-  },
-  {
-    path: '/preferences',
-    element: <Preferences />
-  },
-  {
-    path:'/alerts',
-    element: <AlertsPage />
-  },
-  {
-    path:'/settings',
-    element: <Settings />
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "login", element: <Login /> },
+      { path: "dashboard", element: <UserDashboard /> },
+      { path: "myfeed", element: <MyFeed /> },
+      { path: "news/:id", element: <NewsDetails /> },
+      { path: "preferences", element: <Preferences /> },
+      { path: "alerts", element: <AlertsPage /> },
+      { path: "settings", element: <Settings /> },
+    ],
   },
 
-  //ADmin Routes
+  // ADMIN
   {
-    path:'/admin',
+    path: "/admin",
     element: <AdminLayout />,
     children: [
-      {
-        index: true,
-      },
-      {
-        path: 'dashboard',
-        element:<Dashboard />
-      },
-      {
-        path: "news",
-        element: <AddNews />
-      },
-      {
-        path: "users",
-        element: <Users />,
-      },
-      {
-        path: "alerts",
-        element: <Alerts />,
-      },
-      {
-        path: "analytics",
-        element: <Analytics />,
-      },
-    ]
-  }
-])
+      { path: "dashboard", element: <Dashboard /> },
+      { path: "news", element: <AddNews /> },
+      { path: "users", element: <Users /> },
+      { path: "alerts", element: <Alerts /> },
+      { path: "analytics", element: <Analytics /> },
+    ],
+  },
+]);
 
 const App = () => {
   useEffect(() => {
