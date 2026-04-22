@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import instance from "../instances/instances";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
@@ -22,15 +23,26 @@ const [loading, setLoading] = useState(false);
   }, []);
 
   const fetchSettings = async () => {
-  const res = await instance.get("/preferences");
+  try {
+    const res = await instance.get("/preferences");
 
-  setSettings({
-    frequency: res.data.preference?.frequency || "daily",
-    notifications: {
-      email: res.data.preference?.notifications?.email ?? false,
-      push: res.data.preference?.notifications?.push ?? false
+    const pref = res.data.preference;
+
+    if (pref) {
+      setSettings({
+        frequency: pref.frequency || "instant",
+        notifications: {
+          email: pref.notifications?.email ?? true,
+          push: pref.notifications?.push ?? true,
+        },
+      });
+
+      setEmail(pref.email || "");
     }
-  });
+  } catch (error) {
+    console.log(error);
+    toast.error("Failed to load settings");
+  }
 };
 
   const handleChange = (e) => {
@@ -85,11 +97,23 @@ const saveSettings = async () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow">
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
 
-      <h2 className="text-xl font-bold mb-6">
-        Notification Settings
-      </h2>
+      <div className="max-w-4xl mx-auto mt-10 bg-white rounded-3xl shadow-xl p-8">
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+        >
+          ← Back
+        </button>
+        <h1 className="text-3xl font-bold text-center text-gray-800">
+          Notification Settings
+        </h1>
+
+        <p className="text-center text-gray-500 mt-2 mb-8">
+          Manage your news interests and notifications
+        </p>
 
       {/* EMAIL TOGGLE */}
       <div className="flex justify-between items-center mb-5">
@@ -179,11 +203,12 @@ const saveSettings = async () => {
       {/* SAVE BUTTON */}
       <button
         onClick={saveSettings}
-        className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+        className="bg-blue-600 text-white px-4 py-2 rounded w-full mt-5"
       >
         Save Settings
       </button>
 
+    </div>
     </div>
   );
 };

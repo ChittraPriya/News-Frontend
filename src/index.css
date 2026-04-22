@@ -1,2 +1,18 @@
 
 @import "tailwindcss";
+
+@keyframes scrollImage {
+  0% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(-20%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.animate-scrollImage {
+  animation: scrollImage 8s ease-in-out infinite;
+}

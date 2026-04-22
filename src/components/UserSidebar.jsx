@@ -22,14 +22,6 @@ const UserSidebar = () => {
       </button>
 
       <button
-        onClick={() => navigate("/all-news")}
-        className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50"
-      >
-        <NewspaperIcon className="w-5 h-5" />
-        All News
-      </button>
-
-      <button
         onClick={() => navigate("/alerts")}
         className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50"
       >

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import instance from "../instances/instances";
 import Navbar from "../components/Navbar";
 import { toast } from "react-toastify";
-import { CheckIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { BellIcon, CheckIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 const AlertsPage = () => {
   const [alerts, setAlerts] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchAlerts();
@@ -37,29 +39,24 @@ const AlertsPage = () => {
 
   // DELETE ALERT
   const deleteAlert = async (id) => {
-  try {
-    await instance.delete(`/alerts/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`
-      }
-    });
+    try {
+      await instance.delete(`/alerts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
-    setAlerts((prev) =>
-      prev.filter((item) => item._id !== id)
-    );
+      setAlerts((prev) => prev.filter((item) => item._id !== id));
 
-    window.dispatchEvent(new Event("alerts-updated"));
+      window.dispatchEvent(new Event("alerts-updated"));
 
-    toast.success("Alert deleted");
+      toast.success("Alert deleted");
+    } catch (error) {
+      console.log("DELETE ERROR:", error.response?.data || error.message);
 
-  } catch (error) {
-    console.log("DELETE ERROR:", error.response?.data || error.message);
-
-    toast.error(
-      error.response?.data?.message || "Delete failed"
-    );
-  }
-};
+      toast.error(error.response?.data?.message || "Delete failed");
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-100">
       {/* NAVBAR */}
@@ -67,10 +64,46 @@ const AlertsPage = () => {
 
       {/* CONTENT */}
       <div className="max-w-5xl mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6">Alerts</h1>
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+        >
+          ← Back
+        </button>
 
         {alerts.length === 0 ? (
-          <p className="text-gray-500">No alerts found</p>
+          <div className="bg-white rounded-3xl shadow-xl p-10 text-center mt-10">
+            {/* Icon */}
+            <div className="w-20 h-20 mx-auto rounded-full bg-blue-100 flex items-center justify-center">
+              <BellIcon className="w-10 h-10 text-blue-600 animate-pulse" />
+            </div>
+
+            {/* Title */}
+            <h2 className="text-2xl font-bold text-gray-800 mt-6">
+              No Alerts Yet
+            </h2>
+
+            {/* Description */}
+            <p className="text-gray-500 mt-3 max-w-md mx-auto leading-7">
+              When admin publishes news matching your selected preferences,
+              you'll receive instant alerts here.
+            </p>
+
+            {/* Info Tags */}
+            <div className="flex flex-wrap justify-center gap-3 mt-6">
+              <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm">
+                Real-Time Notifications
+              </span>
+
+              <span className="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm">
+                Preference Based News
+              </span>
+
+              <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm">
+                Stay Updated
+              </span>
+            </div>
+          </div>
         ) : (
           <div className="space-y-4">
             {alerts.map((alert) => (

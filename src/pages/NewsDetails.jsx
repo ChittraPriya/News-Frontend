@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import instance from "../instances/instances";
 import Navbar from "../components/Navbar";
@@ -16,11 +16,13 @@ const NewsDetails = () => {
   const { id } = useParams();
   const [news, setNews] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();  
 
   useEffect(() => {
     fetchNews();
   }, []);
 
+  const backPage = location.state?.from || "/dashboard";
   const fetchNews = async () => {
     try {
       const res = await instance.get(`/news/${id}`);
@@ -40,10 +42,10 @@ const NewsDetails = () => {
       <div className="max-w-4xl mx-auto p-4">
         {/* BACK BUTTON */}
         <button
-          onClick={() => navigate("/dashboard")} // change route if needed
+          onClick={() => navigate(backPage)}
           className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
         >
-          ← Back to Dashboard
+          ← Back
         </button>
         {/* IMAGE FIXED */}
         {news?.image ? (

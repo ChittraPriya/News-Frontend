@@ -28,23 +28,22 @@ const Login = () => {
       if (isLogin) {
         // LOGIN API
         const response = await instance.post("/auth/login", {
-  email: formData.email,
-  password: formData.password,
-});
+          email: formData.email,
+          password: formData.password,
+        });
 
-const user = response.data.user;
+        const user = response.data.user;
 
-localStorage.setItem("token", response.data.token);
-localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(user));
 
+        toast.success("Login Successful");
 
-toast.success("Login Successful");
-
-if (user?.role === "admin") {
-  navigate("/admin/dashboard");  
-} else {
-  navigate("/dashboard");
-}
+        if (user?.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         // REGISTER
         if (formData.password.length < 6) {
@@ -107,9 +106,17 @@ if (user?.role === "admin") {
 
         {/* RIGHT SIDE */}
         <div className="w-1/2 p-10 flex flex-col justify-center bg-black/10 backdrop-blur-md">
-          <h2 className="text-xl text-center tracking-[4px] mb-6">
-            {isLogin ? "LOGIN" : "REGISTER"}
-          </h2>
+        <div className="text-center mb-2">
+    <h2 className="text-3xl font-bold text-gray-900">
+      {isLogin ? "Welcome Back" : "Create Account"}
+    </h2>
+
+    <p className="text-gray-500 text-sm mt-2">
+      {isLogin
+        ? "Login to continue your real-time news journey"
+        : "Join now and stay updated every second"}
+    </p>
+  </div>
 
           {/* INPUTS */}
           {!isLogin && (

@@ -3,14 +3,18 @@ import UserSidebar from "../components/UserSidebar";
 import { useEffect, useState } from "react";
 import instance from "../instances/instances";
 import { Link } from "react-router-dom";
+import { HiOutlineHandRaised, HiOutlineSparkles } from "react-icons/hi2";
+import { TbHandStop } from "react-icons/tb";
 
 const Dashboard = () => {
   const [news, setNews] = useState([]);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
     fetchAllNews();
 
-    const interval = setInterval(fetchAllNews, 30000);
+    const interval = setInterval(fetchAllNews, 10000);
 
     return () => clearInterval(interval);
   }, []);
@@ -25,7 +29,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-100">
       {/* TOP NAVBAR */}
       <div className="h-16 bg-white shadow z-10">
         <Navbar />
@@ -37,7 +41,20 @@ const Dashboard = () => {
         <UserSidebar />
 
         {/* MAIN CONTENT */}
-        <div className="flex-1 p-6 overflow-y-auto">
+        <div className="flex-1 p-6 overflow-y-auto pb-16">
+          {/*  WELCOME HEADER */}
+          <div className="mb-6 bg-white p-6 rounded-2xl shadow">
+            <h1 className="text-2xl font-bold text-gray-800">
+              <TbHandStop className="text-3xl animate-bounce" />
+              Hello {user?.name || "User"}
+            </h1>
+
+            <p className="text-gray-500 mt-1">
+              <HiOutlineSparkles className="text-yellow-500 text-xl" />
+              Welcome back to your real-time news dashboard
+            </p>
+          </div>
+
           <div className="bg-white rounded-3xl shadow-xl p-8">
             <h2 className="text-center text-sm text-blue-500 font-semibold">
               NEWS ON THE GO
@@ -67,15 +84,24 @@ const Dashboard = () => {
                   )}
 
                   <div className="p-4">
-                    {/* Source Badge */}
                     <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        item.source === "admin"
+                      className={`text-xs px-3 py-1 rounded-full font-medium capitalize ${
+                        item.category === "sports"
                           ? "bg-green-100 text-green-700"
-                          : "bg-blue-100 text-blue-700"
+                          : item.category === "technology"
+                            ? "bg-blue-100 text-blue-700"
+                            : item.category === "business"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : item.category === "politics"
+                                ? "bg-red-100 text-red-700"
+                                : item.category === "health"
+                                  ? "bg-pink-100 text-pink-700"
+                                  : item.category === "entertainment"
+                                    ? "bg-purple-100 text-purple-700"
+                                    : "bg-gray-100 text-gray-700"
                       }`}
                     >
-                      {item.source || "News"}
+                      {item.category || "News"}
                     </span>
 
                     <h3 className="font-semibold text-lg mt-3 mb-2">
@@ -88,6 +114,7 @@ const Dashboard = () => {
 
                     <Link
                       to={`/news/${item._id}`}
+                      state={{ from: "/dashboard" }}
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg"
                     >
                       Read More

@@ -114,6 +114,12 @@ const Preferences = () => {
       <Navbar />
 
       <div className="max-w-4xl mx-auto mt-10 bg-white rounded-3xl shadow-xl p-8">
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+        >
+          ← Back
+        </button>
         <h1 className="text-3xl font-bold text-center text-gray-800">
           Preferences
         </h1>

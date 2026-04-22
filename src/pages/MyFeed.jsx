@@ -71,10 +71,12 @@ const MyFeed = () => {
     }
 
     if (sort === "latest") {
-      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    } else {
-      result.sort((a, b) => (b.views || 0) - (a.views || 0));
-    }
+  result.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+} else {
+  result.sort((a, b) => (b.views || 0) - (a.views || 0));
+}
 
     setFilteredNews(result);
   };
@@ -201,9 +203,7 @@ const MyFeed = () => {
                     {getTimeAgo(item.createdAt)}
                   </p>
 
-                  <Link
-                    to={`/news/${item._id}`}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  <Link to={`/news/${item._id}`} state={{ from: "/myfeed" }} className="bg-blue-600 text-white px-4 py-2 rounded-lg"
                   >
                     Read More
                   </Link>
