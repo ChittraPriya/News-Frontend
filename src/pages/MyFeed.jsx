@@ -77,7 +77,7 @@ const MyFeed = () => {
   if (sort === "india") {
     result = result.filter(
       (item) =>
-        item.category?.toLowerCase() !== "world" &&
+        item.category?.toLowerCase() !== "india" &&
         item.category?.toLowerCase() !== "tamilnadu"
     );
   }

@@ -63,6 +63,32 @@ const News = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+     const requiredFields = [
+    "title",
+    "description",
+    "category",
+    "link",
+    "desc1",
+    "desc2",
+    "desc3",
+    "desc4",
+    "desc5",
+    "desc6",
+    "desc7",
+  ];
+
+  for (let field of requiredFields) {
+    if (!form[field] || form[field].toString().trim() === "") {
+      toast.error(`${field} field is required`);
+      return;
+    }
+  }
+
+  if (!form.image && !editId) {
+    toast.error("Image field is required");
+    return;
+  }
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
