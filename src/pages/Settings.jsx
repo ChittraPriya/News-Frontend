@@ -70,8 +70,7 @@ const [loading, setLoading] = useState(false);
     });
 
     toast.success("Email updated successfully!");
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     toast.error("Failed to update email");
   } finally {
     setEmailLoading(false);

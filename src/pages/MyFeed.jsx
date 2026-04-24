@@ -55,31 +55,53 @@ const MyFeed = () => {
   }, []);
 
   const handleSearch = () => {
-    let result = [...news];
+  let result = [...news];
 
-    if (search) {
-      result = result.filter((item) =>
-        item.title?.toLowerCase().includes(search.toLowerCase()),
-      );
-    }
+  /* Search by title */
+  if (search) {
+    result = result.filter((item) =>
+      item.title?.toLowerCase().includes(search.toLowerCase())
+    );
+  }
 
-    if (category !== "All") {
-      result = result.filter(
-        (item) =>
-          item.category?.toLowerCase().trim() === category.toLowerCase().trim(),
-      );
-    }
+  /* Category filter */
+  if (category !== "All") {
+    result = result.filter(
+      (item) =>
+        item.category?.toLowerCase().trim() ===
+        category.toLowerCase().trim()
+    );
+  }
 
-    if (sort === "latest") {
-  result.sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
-} else {
-  result.sort((a, b) => (b.views || 0) - (a.views || 0));
-}
+  /* Region Filter */
+  if (sort === "india") {
+    result = result.filter(
+      (item) =>
+        item.category?.toLowerCase() !== "world" &&
+        item.category?.toLowerCase() !== "tamilnadu"
+    );
+  }
 
-    setFilteredNews(result);
-  };
+  if (sort === "world") {
+    result = result.filter(
+      (item) => item.category?.toLowerCase() === "world"
+    );
+  }
+
+  if (sort === "tamilnadu") {
+    result = result.filter(
+      (item) =>
+        item.category?.toLowerCase() === "tamilnadu" ||
+        item.title?.toLowerCase().includes("tamil nadu") ||
+        item.description?.toLowerCase().includes("tamil nadu")
+    );
+  }
+
+  /* Always latest first */
+  result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  setFilteredNews(result);
+};
 
   const handleReset = () => {
     setSearch("");
@@ -150,8 +172,9 @@ const MyFeed = () => {
               onChange={(e) => setSort(e.target.value)}
               className="border p-3 rounded-lg"
             >
-              <option value="latest">Latest</option>
-              <option value="popular">Popular</option>
+              <option value="india">India</option>
+              <option value="world">World</option>
+              <option value="tamilnadu">Tamil Nadu</option>
             </select>
 
             <div className="flex gap-2">
@@ -203,7 +226,10 @@ const MyFeed = () => {
                     {getTimeAgo(item.createdAt)}
                   </p>
 
-                  <Link to={`/news/${item._id}`} state={{ from: "/myfeed" }} className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  <Link
+                    to={`/news/${item._id}`}
+                    state={{ from: "/myfeed" }}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg"
                   >
                     Read More
                   </Link>

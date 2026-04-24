@@ -36,14 +36,6 @@ const UserSidebar = () => {
         <TagIcon className="w-5 h-5" />
         Preferences
       </button>
-
-      <button
-        onClick={() => navigate("/settings")}
-        className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-blue-50"
-      >
-        <Cog6ToothIcon className="w-5 h-5" />
-        Settings
-      </button>
     </div>
   );
 };

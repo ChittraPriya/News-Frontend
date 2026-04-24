@@ -33,7 +33,6 @@ const router = createBrowserRouter([
       { path: "news/:id", element: <NewsDetails /> },
       { path: "preferences", element: <Preferences /> },
       { path: "alerts", element: <AlertsPage /> },
-      { path: "settings", element: <Settings /> },
     ],
   },
 

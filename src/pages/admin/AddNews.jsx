@@ -9,6 +9,7 @@ import logo5 from "../../assets/logos/Forbes.jpg";
 import logo4 from "../../assets/logos/CNBC.jpg";
 import logo7 from "../../assets/logos/apple.jpg";
 import { useRef } from "react";
+import { FolderIcon, ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 
 const News = () => {
   const token = localStorage.getItem("token");
@@ -44,8 +45,6 @@ const News = () => {
         },
       });
 
-      console.log("News Response:", res.data);
-
       // if backend returns array
       if (Array.isArray(res.data)) {
         setNewsList(res.data);
@@ -62,73 +61,69 @@ const News = () => {
     }
   };
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-    console.log("IMAGE STATE:", form.image);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+    const formData = new FormData();
 
-  const formData = new FormData();
+    formData.append("title", form.title);
+    formData.append("description", form.description);
+    formData.append("category", form.category);
+    formData.append("link", form.link);
 
-  formData.append("title", form.title);
-  formData.append("description", form.description);
-  formData.append("category", form.category);
-  formData.append("link", form.link);
+    formData.append("desc1", form.desc1 || "");
+    formData.append("desc2", form.desc2 || "");
+    formData.append("desc3", form.desc3 || "");
+    formData.append("desc4", form.desc4 || "");
+    formData.append("desc5", form.desc5 || "");
+    formData.append("desc6", form.desc6 || "");
+    formData.append("desc7", form.desc7 || "");
 
-  formData.append("desc1", form.desc1 || "");
-  formData.append("desc2", form.desc2 || "");
-  formData.append("desc3", form.desc3 || "");
-  formData.append("desc4", form.desc4 || "");
-  formData.append("desc5", form.desc5 || "");
-  formData.append("desc6", form.desc6 || "");
-  formData.append("desc7", form.desc7 || "");
-
-  if (form.image) {
-  formData.append("image", form.image);
-}
-
-for (let pair of formData.entries()) {
-    console.log("FORMDATA:", pair[0], pair[1]);
-  }
-
-  try {
-    if (editId) {
-      await instance.put(`/admin/news/${editId}`, formData, config);
-      toast.success("Updated Successfully");
-      setEditId(null);
-    } else {
-      await instance.post("/admin/news", formData, config);
-      toast.success("News Published");
+    if (form.image) {
+      formData.append("image", form.image);
     }
 
-    //RESET FORM PROPERLY
-    setForm({
-      title: "",
-      description: "",
-      category: "",
-      link: "",
-      image: null,
+    for (let pair of formData.entries()) {
+      console.log("FORMDATA:", pair[0], pair[1]);
+    }
 
-      desc1: "",
-      desc2: "",
-      desc3: "",
-      desc4: "",
-      desc5: "",
-      desc6: "",
-      desc7: "",
-    });
+    try {
+      if (editId) {
+        await instance.put(`/admin/news/${editId}`, formData, config);
+        toast.success("Updated Successfully");
+        setEditId(null);
+      } else {
+        await instance.post("/admin/news", formData, config);
+        toast.success("News Published");
+      }
 
-    fetchNews();
+      //RESET FORM PROPERLY
+      setForm({
+        title: "",
+        description: "",
+        category: "",
+        link: "",
+        image: null,
 
-  } catch (error) {
-    console.log("ERROR:", error.response?.data || error.message);
-    toast.error(error.response?.data?.message || "Failed");
-  }
-};
+        desc1: "",
+        desc2: "",
+        desc3: "",
+        desc4: "",
+        desc5: "",
+        desc6: "",
+        desc7: "",
+      });
+
+      fetchNews();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed");
+    }
+  };
   const handleDelete = async (id) => {
     await instance.delete(`/admin/news/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -140,13 +135,12 @@ for (let pair of formData.entries()) {
   };
 
   const handleEdit = (item) => {
-    console.log("EDIT ITEM:", item);
     setForm({
       title: item.title || "",
       description: item.description || "",
       category: item.category || "",
       link: item.link || "",
-      image: null, 
+      image: null,
 
       desc1: item.desc1 || "",
       desc2: item.desc2 || "",
@@ -219,18 +213,38 @@ for (let pair of formData.entries()) {
               })
             }
           />
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            className="w-full border p-3 rounded-xl"
-            onChange={(e) =>
-              setForm({
-                ...form,
-                image: e.target.files[0],
-              })
-            }
-          />
+          <div className="border p-4 rounded-xl flex items-center justify-between bg-gray-50">
+            <div className="flex items-center gap-3 text-gray-700">
+              <FolderIcon className="w-6 h-6 text-blue-500" />
+
+              <span className="text-sm">
+                {form.image ? form.image.name : "No file selected"}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              <ArrowUpTrayIcon className="w-5 h-5" />
+              Upload
+            </button>
+
+            {/* Hidden File Input */}
+            <input
+              type="file"
+              ref={fileRef}
+              hidden
+              accept="image/*"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  image: e.target.files[0],
+                })
+              }
+            />
+          </div>
 
           {/* COVERAGE SECTION */}
           <h3 className="text-xl font-bold mt-6">Other Sources Coverage</h3>
@@ -301,7 +315,7 @@ for (let pair of formData.entries()) {
             value={form.desc5}
             onChange={(e) => setForm({ ...form, desc5: e.target.value })}
           />
-          
+
           {/* TechCrunch */}
           <div className="flex items-center gap-3 border p-3 rounded-xl">
             <img src={logo6} className="h-8" />
@@ -340,7 +354,6 @@ for (let pair of formData.entries()) {
         <h2 className="text-xl font-bold mb-4">News List</h2>
 
         {newsList.map((item) => {
-          console.log("ITEM:", item);
           return (
             <div
               key={item._id}

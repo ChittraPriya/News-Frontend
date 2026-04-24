@@ -105,18 +105,18 @@ const Login = () => {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="w-1/2 p-10 flex flex-col justify-center bg-black/10 backdrop-blur-md">
-        <div className="text-center mb-2">
-    <h2 className="text-3xl font-bold text-gray-900">
-      {isLogin ? "Welcome Back" : "Create Account"}
-    </h2>
+        <div className="w-1/2 p-10 flex flex-col justify-center bg-white backdrop-blur-md">
+          <div className="text-center mb-2">
+            <h2 className="text-3xl font-bold text-gray-900">
+              {isLogin ? "Welcome Back" : "Create Account"}
+            </h2>
 
-    <p className="text-gray-500 text-sm mt-2">
-      {isLogin
-        ? "Login to continue your real-time news journey"
-        : "Join now and stay updated every second"}
-    </p>
-  </div>
+            <p className="text-gray-500 text-sm mt-2">
+              {isLogin
+                ? "Login to continue your real-time news journey"
+                : "Join now and stay updated every second"}
+            </p>
+          </div>
 
           {/* INPUTS */}
           {!isLogin && (
@@ -142,7 +142,7 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none"
+              className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-purple-400 focus:shadow-[0_0_12px_#a855f7]"
             />
             <label className="absolute left-3 top-3 text-black text-sm transition-all peer-focus:-top-2 peer-focus:text-xs  peer-focus:text-black peer-valid:-top-2 peer-valid:text-xs ">
               Your Email
@@ -156,7 +156,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-[#1e3a8a] focus:shadow-[0_0_12px_#1e3a8a]"
+              className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-purple-400 focus:shadow-[0_0_12px_#a855f7]"
             />
             <label className="absolute left-3 top-3 text-black text-sm transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-black peer-valid:-top-2 peer-valid:text-xs">
               Password
@@ -181,18 +181,17 @@ const Login = () => {
             onClick={handleSubmit}
             className="bg-[#4338ca] text-white py-2 rounded-md hover:bg-[#3730a3] transition duration-300 shadow-lg"
           >
-            {isLogin ? "LOGIN" : "REGISTER"}
+            {isLogin ? "Login Now" : "Create Account"}
           </button>
 
           {/* SWITCH */}
           <p className="text-xs text-center mt-5 text-black">
-            {isLogin ? "Create An Account ? " : "Already have account?"}
-            <span
-              className="text-white ml-2 cursor-pointer hover:underline"
-              onClick={() => setIsLogin(!isLogin)}
-            >
-              {isLogin ? "Create account" : "Login"}
-            </span>
+            {isLogin ? "New here?" : "Already have an account?"}{" "}
+            <button
+              type="button" onClick={() => setIsLogin(!isLogin)}
+              className="text-blue font-semibold hover:underline">
+                {isLogin ? "Register" : "Login"}
+            </button>
           </p>
         </div>
       </div>

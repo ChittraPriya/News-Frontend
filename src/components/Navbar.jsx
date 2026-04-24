@@ -126,21 +126,39 @@ const Navbar = () => {
 
   /* CLEAR ALL */
   const clearAllNotifications = async () => {
-    try {
-      await instance.delete("/alerts/all", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+  try {
+    await instance.delete("/alerts/all", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    setNotifications([]);
+    setUnreadCount(0);
+
+    // 👇 IMPORTANT: temporarily disable socket updates
+    socket.off("new-news");
+
+    toast.success("All notifications cleared");
+
+    // 👇 re-attach socket after clearing
+    socket.on("new-news", (data) => {
+      setNotifications((prev) => {
+        const exists = prev.some(
+          (item) =>
+            item.title === data.alert.title ||
+            item.link === data.alert.link
+        );
+
+        if (exists) return prev;
+        return [data.alert, ...prev];
       });
 
-      setNotifications([]);
-      setUnreadCount(0);
+      fetchUnreadCount();
+    });
 
-      toast.success("All notifications cleared");
-    } catch (error) {
-      toast.error("Failed to clear notifications");
-    }
-  };
+  } catch (error) {
+    toast.error("Failed to clear notifications");
+  }
+};
 
   /* LOGOUT */
   const handleLogout = () => {

@@ -44,14 +44,23 @@ const Dashboard = () => {
         <div className="flex-1 p-6 overflow-y-auto pb-16">
           {/*  WELCOME HEADER */}
           <div className="mb-6 bg-white p-6 rounded-2xl shadow">
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
               <TbHandStop className="text-3xl animate-bounce" />
-              Hello {user?.name || "User"}
+              Hello{" "}
+              <span className="bg-gradient-to-r from-pink-500 via-purple-500 via-blue-500 via-green-400 to-yellow-400 text-transparent bg-clip-text font-semibold animate-pulse">
+                {user?.name || "User"}
+              </span>
             </h1>
 
-            <p className="text-gray-500 mt-1">
+            <p className="text-gray-500 mt-1 flex items-center gap-2">
               <HiOutlineSparkles className="text-yellow-500 text-xl" />
-              Welcome back to your real-time news dashboard
+              <span>
+                Welcome back to your{" "}
+                <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text font-medium">
+                  real-time news
+                </span>{" "}
+                dashboard 🚀
+              </span>
             </p>
           </div>
 
@@ -98,7 +107,11 @@ const Dashboard = () => {
                                   ? "bg-pink-100 text-pink-700"
                                   : item.category === "entertainment"
                                     ? "bg-purple-100 text-purple-700"
-                                    : "bg-gray-100 text-gray-700"
+                                    : item.category === "science"
+                                      ? "bg-indigo-100 text-indigo-700"
+                                      : item.category === "world"
+                                        ? "bg-gray-200 text-gray-800"
+                                        : "bg-gray-100 text-gray-700"
                       }`}
                     >
                       {item.category || "News"}
