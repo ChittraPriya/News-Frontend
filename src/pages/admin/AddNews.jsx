@@ -63,31 +63,31 @@ const News = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     const requiredFields = [
-    "title",
-    "description",
-    "category",
-    "link",
-    "desc1",
-    "desc2",
-    "desc3",
-    "desc4",
-    "desc5",
-    "desc6",
-    "desc7",
-  ];
+    const requiredFields = [
+      "title",
+      "description",
+      "category",
+      "link",
+      "desc1",
+      "desc2",
+      "desc3",
+      "desc4",
+      "desc5",
+      "desc6",
+      "desc7",
+    ];
 
-  for (let field of requiredFields) {
-    if (!form[field] || form[field].toString().trim() === "") {
-      toast.error(`${field} field is required`);
-      return;
+    for (let field of requiredFields) {
+      if (!form[field] || form[field].toString().trim() === "") {
+        toast.error(`${field} field is required`);
+        return;
+      }
     }
-  }
 
-  if (!form.image && !editId) {
-    toast.error("Image field is required");
-    return;
-  }
+    // if (!form.image && !editId) {
+    //   toast.error("Image field is required");
+    //   return;
+    // }
 
     const config = {
       headers: {
@@ -110,10 +110,9 @@ const News = () => {
     formData.append("desc6", form.desc6 || "");
     formData.append("desc7", form.desc7 || "");
 
-    if (form.image) {
+    if (form.image instanceof File) {
       formData.append("image", form.image);
     }
-
     for (let pair of formData.entries()) {
       console.log("FORMDATA:", pair[0], pair[1]);
     }
@@ -239,7 +238,7 @@ const News = () => {
               })
             }
           />
-          <div className="border p-4 rounded-xl flex items-center justify-between bg-gray-50">
+          {/* <div className="border p-4 rounded-xl flex items-center justify-between bg-gray-50">
             <div className="flex items-center gap-3 text-gray-700">
               <FolderIcon className="w-6 h-6 text-blue-500" />
 
@@ -258,7 +257,7 @@ const News = () => {
             </button>
 
             {/* Hidden File Input */}
-            <input
+            {/* <input
               type="file"
               ref={fileRef}
               hidden
@@ -270,7 +269,7 @@ const News = () => {
                 })
               }
             />
-          </div>
+          </div> */} 
 
           {/* COVERAGE SECTION */}
           <h3 className="text-xl font-bold mt-6">Other Sources Coverage</h3>
