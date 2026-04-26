@@ -26,7 +26,6 @@ const Login = () => {
   const handleSubmit = async () => {
     try {
       if (isLogin) {
-        // LOGIN API
         const response = await instance.post("/auth/login", {
           email: formData.email,
           password: formData.password,
@@ -45,7 +44,6 @@ const Login = () => {
           navigate("/dashboard");
         }
       } else {
-        // REGISTER
         if (formData.password.length < 6) {
           toast.error("Password must be at least 6 characters");
           return;
@@ -64,8 +62,6 @@ const Login = () => {
         setIsLogin(true);
       }
     } catch (error) {
-      console.log(error);
-
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
@@ -76,38 +72,38 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#9fb1e0] text-black relative overflow-hidden">
-      {/* GLOW CIRCLE */}
-      <div className="absolute w-[400px] h-[400px] bg-red-500 rounded-full blur-[120px] opacity-30 left-20 top-20"></div>
+    <div className="min-h-screen flex items-center justify-center bg-[#9fb1e0] px-4 py-8 relative overflow-hidden">
+      {/* Glow */}
+      <div className="absolute w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-red-500 rounded-full blur-[120px] opacity-30 left-0 top-0"></div>
 
-      {/* CARD */}
-      <div className="w-[900px] h-[520px] flex rounded-2xl overflow-hidden backdrop-blur-xl border border-white/10 shadow-2xl z-10">
+      {/* Main Card */}
+      <div className="w-full max-w-5xl min-h-[620px] md:min-h-[520px] flex flex-col md:flex-row rounded-2xl overflow-hidden shadow-2xl bg-white z-10">
+        
         {/* LEFT SIDE */}
-        <div className="w-1/2 relative overflow-hidden">
-          {/* Background Image */}
+        <div className="w-full md:w-1/2 relative h-64 md:h-auto">
           <img
             src={login}
             alt="News Background"
             className="w-full h-full object-cover"
           />
 
-          {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/50"></div>
 
-          {/* Content */}
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
-            <h1 className="text-5xl font-bold mb-4 font-Playfair">
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-4 text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 font-Playfair">
               DAILY EXPRESS
             </h1>
 
-            <p className="text-lg text-gray-200">Stay Updated With The World</p>
+            <p className="text-sm sm:text-base md:text-lg text-gray-200">
+              Stay Updated With The World
+            </p>
           </div>
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="w-1/2 p-10 flex flex-col justify-center bg-white backdrop-blur-md">
-          <div className="text-center mb-2">
-            <h2 className="text-3xl font-bold text-gray-900">
+        <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 flex flex-col justify-center">
+          <div className="text-center mb-5">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
               {isLogin ? "Welcome Back" : "Create Account"}
             </h2>
 
@@ -118,7 +114,7 @@ const Login = () => {
             </p>
           </div>
 
-          {/* INPUTS */}
+          {/* Username */}
           {!isLogin && (
             <div className="relative mb-4">
               <input
@@ -127,14 +123,15 @@ const Login = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-purple-400 focus:shadow-[0_0_12px_#a855f7]"
+                className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-purple-400"
               />
-              <label className="absolute left-3 top-3 text-black text-sm transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-black peer-valid:-top-2 peer-valid:text-xs">
+              <label className="absolute left-3 top-3 text-sm transition-all peer-focus:-top-2 peer-focus:text-xs peer-valid:-top-2 peer-valid:text-xs bg-white px-1">
                 Username
               </label>
             </div>
           )}
 
+          {/* Email */}
           <div className="relative mb-4">
             <input
               type="email"
@@ -142,13 +139,14 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-purple-400 focus:shadow-[0_0_12px_#a855f7]"
+              className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-purple-400"
             />
-            <label className="absolute left-3 top-3 text-black text-sm transition-all peer-focus:-top-2 peer-focus:text-xs  peer-focus:text-black peer-valid:-top-2 peer-valid:text-xs ">
+            <label className="absolute left-3 top-3 text-sm transition-all peer-focus:-top-2 peer-focus:text-xs peer-valid:-top-2 peer-valid:text-xs bg-white px-1">
               Your Email
             </label>
           </div>
 
+          {/* Password */}
           <div className="relative mb-4">
             <input
               type="password"
@@ -156,41 +154,44 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-purple-400 focus:shadow-[0_0_12px_#a855f7]"
+              className="peer w-full p-3 bg-transparent border border-black/40 rounded-md focus:outline-none focus:border-purple-400"
             />
-            <label className="absolute left-3 top-3 text-black text-sm transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-black peer-valid:-top-2 peer-valid:text-xs">
+            <label className="absolute left-3 top-3 text-sm transition-all peer-focus:-top-2 peer-focus:text-xs peer-valid:-top-2 peer-valid:text-xs bg-white px-1">
               Password
             </label>
           </div>
 
-          {/* REMEMBER */}
+          {/* Remember */}
           {isLogin && (
-            <div className="flex justify-between text-xs text-black mb-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-2 text-xs text-black mb-4">
               <label>
                 <input type="checkbox" className="mr-1" />
                 Remember me
               </label>
-              <span className="hover:text-blue-400 cursor-pointer">
+
+              <span className="hover:text-blue-500 cursor-pointer">
                 Forgot password?
               </span>
             </div>
           )}
 
-          {/* BUTTON */}
+          {/* Button */}
           <button
             onClick={handleSubmit}
-            className="bg-[#4338ca] text-white py-2 rounded-md hover:bg-[#3730a3] transition duration-300 shadow-lg"
+            className="bg-[#4338ca] text-white py-3 rounded-md hover:bg-[#3730a3] transition duration-300"
           >
             {isLogin ? "Login Now" : "Create Account"}
           </button>
 
-          {/* SWITCH */}
-          <p className="text-xs text-center mt-5 text-black">
+          {/* Switch */}
+          <p className="text-sm text-center mt-5 text-black">
             {isLogin ? "New here?" : "Already have an account?"}{" "}
             <button
-              type="button" onClick={() => setIsLogin(!isLogin)}
-              className="text-blue font-semibold hover:underline">
-                {isLogin ? "Register" : "Login"}
+              type="button"
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-blue-600 font-semibold hover:underline"
+            >
+              {isLogin ? "Register" : "Login"}
             </button>
           </p>
         </div>
