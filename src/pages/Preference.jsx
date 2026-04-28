@@ -37,8 +37,8 @@ const Preferences = () => {
 
     if (data) {
       setSelected(data.categories ?? []);
-      setFrequency(data.frequency ?? "daily");
-      setTime(data.time ?? "08:00");
+      setFrequency(data.frequency ?? null);
+      setTime(data.time ?? null);
       setHasPreference(true);
     } else {
       setHasPreference(false);
@@ -68,7 +68,7 @@ const Preferences = () => {
       const data = {
         categories: selected,
         frequency,
-        time: frequency === "daily" ? time : null,
+        time,
       };
 
       if (hasPreference) {
