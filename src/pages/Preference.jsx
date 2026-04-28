@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 const Preferences = () => {
   const [selected, setSelected] = useState([]);
-  const [frequency, setFrequency] = useState("daily");
-  const [time, setTime] = useState("08:00");
+  const [frequency, setFrequency] = useState(null);
+  const [time, setTime] = useState(null);
   const [hasPreference, setHasPreference] = useState(false);
   const navigate = useNavigate();
 
@@ -28,27 +28,25 @@ const Preferences = () => {
 
   // FETCH PREFERENCE
   const fetchPreference = async () => {
-    try {
-      const response = await instance.get("/preferences");
+  try {
+    const response = await instance.get("/preferences");
 
-      console.log("Fetched preference:", response.data);
+    const data = response.data.preference;
 
-      const data = response.data.preference;
+    console.log("Fetched preference:", data);
 
-      if (data) {
-        setSelected(data.categories || []);
-        setFrequency(data.frequency || "daily");
-
-        if (data.frequency === "daily") {
-          setTime(data.time || "08:00");
-        }
-      }
-
+    if (data) {
+      setSelected(data.categories ?? []);
+      setFrequency(data.frequency ?? "daily");
+      setTime(data.time ?? "08:00");
       setHasPreference(true);
-    } catch (error) {
+    } else {
       setHasPreference(false);
     }
-  };
+  } catch (error) {
+    setHasPreference(false);
+  }
+};
 
   // TOGGLE CATEGORY
   const toggleCategory = (item) => {
