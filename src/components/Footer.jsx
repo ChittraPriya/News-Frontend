@@ -7,21 +7,7 @@ import { FaFacebookF, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
 const Footer = () => {
   const navigate = useNavigate();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem("token")
-  );
-
-  useEffect(() => {
-    const checkAuth = () => {
-      setIsAuthenticated(!!localStorage.getItem("token"));
-    };
-
-    window.addEventListener("auth-changed", checkAuth);
-
-    return () => {
-      window.removeEventListener("auth-changed", checkAuth);
-    };
-  }, []);
+  const isAuthenticated = !!localStorage.getItem("token");
 
   const handleScrollToTop = () => {
     window.scrollTo({
@@ -93,24 +79,24 @@ const Footer = () => {
             </li>
 
             <li>
-              {isAuthenticated ? (
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-3 hover:text-white transition"
-                >
-                  <UserIcon className="w-5 h-5 text-red-400" />
-                  Logout
-                </button>
-              ) : (
-                <Link
-                  to="/login"
-                  className="flex items-center gap-3 hover:text-white transition"
-                >
-                  <UserIcon className="w-5 h-5 text-green-400" />
-                  Login
-                </Link>
-              )}
-            </li>
+  {isAuthenticated ? (
+    <button
+      onClick={handleLogout}
+      className="flex items-center gap-3 hover:text-white transition"
+    >
+      <UserIcon className="w-5 h-5 text-red-400" />
+      Logout
+    </button>
+  ) : (
+    <Link
+      to="/login"
+      className="flex items-center gap-3 hover:text-white transition"
+    >
+      <UserIcon className="w-5 h-5 text-green-400" />
+      Login
+    </Link>
+  )}
+</li>
           </ul>
         </div>
 
