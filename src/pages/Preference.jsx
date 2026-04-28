@@ -38,7 +38,7 @@ const Preferences = () => {
     if (data) {
       setSelected(data.categories ?? []);
       setFrequency(data.frequency ?? null);
-      setTime(data.time ?? "08:00");
+      setTime(data.time);
       setHasPreference(true);
     } else {
       setHasPreference(false);
