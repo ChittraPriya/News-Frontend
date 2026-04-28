@@ -28,7 +28,6 @@ const Preferences = () => {
 
   const fetchPreference = async () => {
     try {
-<<<<<<< HEAD
     const response = await instance.get("/preferences");
 
     const data = response.data.preference;
@@ -36,16 +35,7 @@ const Preferences = () => {
     setSelected(data.categories ?? []);
     setFrequency(data.frequency ?? "daily");
     setTime(data.time ?? "08:00");
-    
-=======
-      const response = await instance.get("/preferences");
 
-      const data = response.data.preference;
-
-      setSelected(data.categories || []);
-      setFrequency(data.frequency || "daily");
-      setTime(data.time || "08:00");
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
       setHasPreference(true);
     } catch (error) {
       setHasPreference(false);

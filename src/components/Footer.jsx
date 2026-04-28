@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
@@ -8,12 +7,10 @@ import { FaFacebookF, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
 const Footer = () => {
   const navigate = useNavigate();
 
-  // ✅ STATE (reactive)
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token")
   );
 
-  // ✅ LISTEN for login/logout changes
   useEffect(() => {
     const checkAuth = () => {
       setIsAuthenticated(!!localStorage.getItem("token"));
@@ -26,7 +23,6 @@ const Footer = () => {
     };
   }, []);
 
-  // ✅ SCROLL TO TOP
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -34,40 +30,22 @@ const Footer = () => {
     });
   };
 
-  // ✅ LOGOUT
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
-    window.dispatchEvent(new Event("auth-changed")); // 🔥 update UI
-
+    window.dispatchEvent(new Event("auth-changed"));
     navigate("/");
   };
 
   return (
     <footer className="relative mt-16 bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white overflow-hidden">
       
-=======
-import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
-import { HomeIcon, UserIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
-
-import { FaFacebookF, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
-
-const Footer = () => {
-  return (
-    <footer className="relative mt-16 bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white overflow-hidden">
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
       {/* Glow Background */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl"></div>
 
-      {/* MAIN */}
       <div className="relative max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
-<<<<<<< HEAD
         
-=======
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
         {/* BRAND */}
         <div>
           <div className="flex items-center gap-3 mb-4">
@@ -76,14 +54,9 @@ const Footer = () => {
               alt="Logo"
               className="w-12 h-12 rounded-xl shadow-lg border border-white/20"
             />
-<<<<<<< HEAD
             <h2 className="text-2xl font-bold tracking-wide">
               Daily Express
             </h2>
-=======
-
-            <h2 className="text-2xl font-bold tracking-wide">Daily Express</h2>
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
           </div>
 
           <p className="text-gray-300 leading-7 text-sm">
@@ -91,7 +64,6 @@ const Footer = () => {
             next-generation real-time digital experience.
           </p>
 
-<<<<<<< HEAD
           {/* Go To Top */}
           <div className="mt-6">
             <p className="text-sm font-medium mb-2">Back to Top</p>
@@ -101,15 +73,6 @@ const Footer = () => {
               className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl text-sm font-medium transition w-full sm:w-auto"
             >
               ↑ Go to Top
-=======
-          {/* Newsletter */}
-          <div className="mt-6">
-            <p className="text-sm font-medium mb-2">
-              Subscribe for Breaking News
-            </p>
-            <button className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl text-sm font-medium transition w-full sm:w-auto">
-              Subscribe
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
             </button>
           </div>
         </div>
@@ -130,7 +93,6 @@ const Footer = () => {
             </li>
 
             <li>
-<<<<<<< HEAD
               {isAuthenticated ? (
                 <button
                   onClick={handleLogout}
@@ -148,15 +110,6 @@ const Footer = () => {
                   Login
                 </Link>
               )}
-=======
-              <Link
-                to="/login"
-                className="flex items-center gap-3 hover:text-white transition"
-              >
-                <UserIcon className="w-5 h-5 text-green-400" />
-                Login
-              </Link>
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
             </li>
           </ul>
         </div>
@@ -165,23 +118,16 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-5">Contact</h3>
 
-<<<<<<< HEAD
           <p className="text-gray-300 text-sm mb-2">
             info@dailyexpress.com
           </p>
           <p className="text-gray-300 text-sm mb-6">
             support@dailyexpress.com
           </p>
-=======
-          <p className="text-gray-300 text-sm mb-2">info@dailyexpress.com</p>
-
-          <p className="text-gray-300 text-sm mb-6">support@dailyexpress.com</p>
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
 
           <h4 className="font-semibold mb-3">Follow Us</h4>
 
           <div className="flex gap-4">
-<<<<<<< HEAD
             <a className="w-10 h-10 rounded-full bg-white/10 hover:bg-blue-600 flex items-center justify-center transition">
               <FaFacebookF />
             </a>
@@ -195,33 +141,6 @@ const Footer = () => {
             </a>
 
             <a className="w-10 h-10 rounded-full bg-white/10 hover:bg-sky-500 flex items-center justify-center transition">
-=======
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-blue-600 flex items-center justify-center transition"
-            >
-              <FaFacebookF />
-            </a>
-
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-pink-500 flex items-center justify-center transition"
-            >
-              <FaInstagram />
-            </a>
-
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-red-500 flex items-center justify-center transition"
-            >
-              <FaYoutube />
-            </a>
-
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-sky-500 flex items-center justify-center transition"
-            >
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
               <FaTwitter />
             </a>
           </div>
@@ -230,19 +149,10 @@ const Footer = () => {
 
       {/* BOTTOM */}
       <div className="relative border-t border-white/10 text-center py-5 text-sm text-gray-300">
-<<<<<<< HEAD
         © {new Date().getFullYear()} Daily Express. Crafted for the future of news.
-=======
-        © {new Date().getFullYear()} Daily Express. Crafted for the future of
-        news.
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
       </div>
     </footer>
   );
 };
 
-<<<<<<< HEAD
 export default Footer;
-=======
-export default Footer;
->>>>>>> 6b50bb7a00dd1a667c3bada7b6e6c0c3ff05b369
