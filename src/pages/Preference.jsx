@@ -32,9 +32,9 @@ const Preferences = () => {
 
     const data = response.data.preference;
 
-    setSelected(data.categories ?? []);
-    setFrequency(data.frequency ?? "daily");
-    setTime(data.time ?? "08:00");
+    setSelected(data?.categories || []);
+    setFrequency(data?.frequency || "daily");
+    setTime(data?.time || "08:00");
 
       setHasPreference(true);
     } catch (error) {
