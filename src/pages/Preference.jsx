@@ -26,15 +26,23 @@ const Preferences = () => {
     fetchPreference();
   }, []);
 
+  // ✅ FETCH PREFERENCE
   const fetchPreference = async () => {
     try {
-    const response = await instance.get("/preferences");
+      const response = await instance.get("/preferences");
 
-    const data = response.data.preference;
+      console.log("Fetched preference:", response.data); // 🔥 DEBUG
 
-    setSelected(data?.categories || []);
-    setFrequency(data?.frequency || "daily");
-    setTime(data?.time || "08:00");
+      const data = response.data.preference;
+
+      if (data) {
+        setSelected(data.categories || []);
+        setFrequency(data.frequency || "daily");
+
+        if (data.frequency === "daily") {
+          setTime(data.time || "08:00");
+        }
+      }
 
       setHasPreference(true);
     } catch (error) {
@@ -42,6 +50,7 @@ const Preferences = () => {
     }
   };
 
+  // ✅ TOGGLE CATEGORY
   const toggleCategory = (item) => {
     if (selected.includes(item)) {
       setSelected(selected.filter((cat) => cat !== item));
@@ -50,6 +59,7 @@ const Preferences = () => {
     }
   };
 
+  // ✅ SAVE / UPDATE
   const handleSave = async () => {
     try {
       if (selected.length === 0) {
@@ -64,23 +74,25 @@ const Preferences = () => {
       };
 
       if (hasPreference) {
-        const res = await instance.put("/preferences", data);
-        setHasPreference(true); // 🔥 IMPORTANT
+        await instance.put("/preferences", data);
         toast.success("Preferences Updated");
       } else {
-        const res = await instance.post("/preferences/add", data);
-        setHasPreference(true); // 🔥 IMPORTANT
+        await instance.post("/preferences/add", data);
         toast.success("Preferences Saved");
       }
+
+      // 🔥 IMPORTANT: refresh latest data
+      await fetchPreference();
 
       navigate("/dashboard");
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Failed to Save Preferences",
+        error.response?.data?.message || "Failed to Save Preferences"
       );
     }
   };
 
+  // ✅ DELETE CATEGORY
   const handleDeleteCategory = async (item) => {
     try {
       await instance.delete("/preferences/category", {
@@ -95,6 +107,7 @@ const Preferences = () => {
     }
   };
 
+  // ✅ DELETE ALL
   const handleDeleteAll = async () => {
     try {
       await instance.delete("/preferences");
@@ -116,11 +129,12 @@ const Preferences = () => {
 
       <div className="max-w-4xl mx-auto mt-10 bg-white rounded-3xl shadow-xl p-8">
         <button
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate("/dashboard")}
           className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
         >
           ← Back
         </button>
+
         <h1 className="text-3xl font-bold text-center text-gray-800">
           Preferences
         </h1>
@@ -158,10 +172,12 @@ const Preferences = () => {
           ))}
         </div>
 
-        {/* Selected Categories Display */}
+        {/* Selected Categories */}
         {selected.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-lg font-semibold mb-3">Selected Categories</h2>
+            <h2 className="text-lg font-semibold mb-3">
+              Selected Categories
+            </h2>
 
             <div className="flex flex-wrap gap-3">
               {selected.map((item, index) => (
@@ -196,7 +212,9 @@ const Preferences = () => {
         {/* Time */}
         {frequency === "daily" && (
           <div className="mb-8">
-            <label className="block font-semibold mb-2">Preferred Time</label>
+            <label className="block font-semibold mb-2">
+              Preferred Time
+            </label>
 
             <input
               type="time"
