@@ -26,12 +26,12 @@ const Preferences = () => {
     fetchPreference();
   }, []);
 
-  // ✅ FETCH PREFERENCE
+  // FETCH PREFERENCE
   const fetchPreference = async () => {
     try {
       const response = await instance.get("/preferences");
 
-      console.log("Fetched preference:", response.data); // 🔥 DEBUG
+      console.log("Fetched preference:", response.data);
 
       const data = response.data.preference;
 
@@ -50,7 +50,7 @@ const Preferences = () => {
     }
   };
 
-  // ✅ TOGGLE CATEGORY
+  // TOGGLE CATEGORY
   const toggleCategory = (item) => {
     if (selected.includes(item)) {
       setSelected(selected.filter((cat) => cat !== item));
@@ -59,7 +59,7 @@ const Preferences = () => {
     }
   };
 
-  // ✅ SAVE / UPDATE
+  // SAVE / UPDATE
   const handleSave = async () => {
     try {
       if (selected.length === 0) {
@@ -81,7 +81,6 @@ const Preferences = () => {
         toast.success("Preferences Saved");
       }
 
-      // 🔥 IMPORTANT: refresh latest data
       await fetchPreference();
 
       navigate("/dashboard");
@@ -92,7 +91,7 @@ const Preferences = () => {
     }
   };
 
-  // ✅ DELETE CATEGORY
+  // DELETE CATEGORY
   const handleDeleteCategory = async (item) => {
     try {
       await instance.delete("/preferences/category", {
@@ -107,7 +106,7 @@ const Preferences = () => {
     }
   };
 
-  // ✅ DELETE ALL
+  // DELETE ALL
   const handleDeleteAll = async () => {
     try {
       await instance.delete("/preferences");
