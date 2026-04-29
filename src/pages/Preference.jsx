@@ -38,7 +38,7 @@ const Preferences = () => {
     if (data) {
       setSelected(data.categories ?? []);
       setFrequency(data.frequency ?? null);
-      setTime(data.time);
+      setTime(data.time ?? "");
       setHasPreference(true);
     } else {
       setHasPreference(false);
@@ -215,7 +215,7 @@ const Preferences = () => {
 
             <input
               type="time"
-              value={time}
+              value={time || ""}
               onChange={(e) => setTime(e.target.value)}
               className="w-full border rounded-xl px-4 py-3"
             />
