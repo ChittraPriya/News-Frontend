@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 const Preferences = () => {
   const [selected, setSelected] = useState([]);
-  const [frequency, setFrequency] = useState(null);
-  const [time, setTime] = useState(null);
+  const [frequency, setFrequency] = useState("daily");
+  const [time, setTime] = useState("08:00");
   const [hasPreference, setHasPreference] = useState(false);
   const navigate = useNavigate();
 
@@ -37,13 +37,15 @@ const Preferences = () => {
 
     if (data) {
       setSelected(data.categories ?? []);
-      setFrequency(data.frequency ?? null);
-      setTime(data.time ?? "");
+      setFrequency(data.frequency ?? "daily");
+      setTime(data.time ?? "08:00");
       setHasPreference(true);
     } else {
       setHasPreference(false);
     }
+
   } catch (error) {
+    console.log(error);
     setHasPreference(false);
   }
 };
