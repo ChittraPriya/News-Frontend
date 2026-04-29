@@ -38,7 +38,7 @@ const Preferences = () => {
     if (data) {
       setSelected(data.categories ?? []);
       setFrequency(data.frequency ?? "daily");
-       setTime(data.time && data.time.trim() !== "" ? data.time : "08:00");
+      setTime(data.time ?? "08:00");
       setHasPreference(true);
     } else {
       setHasPreference(false);
@@ -82,6 +82,7 @@ const Preferences = () => {
       }
 
       await fetchPreference();
+      navigate('/dashboard')
 
     } catch (error) {
       toast.error(
